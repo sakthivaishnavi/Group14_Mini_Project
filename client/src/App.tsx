@@ -1,7 +1,7 @@
 import UserLogin from "./pages/UserLogin"
 import UserRegister from "./pages/UserRegister"
 import ProtectedRoutes from "./routes/ProtectedRoutes"
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
@@ -11,17 +11,26 @@ import CourseDetailPage from "./pages/CourseDetailPage";
 
 const App: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false); // Change to true after login
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => Boolean(localStorage.getItem("token")));
 
-function App() {
+  useEffect(() => {
+    const onStorage = () => setIsLoggedIn(Boolean(localStorage.getItem("token")));
+    // Listen for storage changes (in case multiple tabs)
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
+  }, []);
+
+
   return (
     <BrowserRouter>
-      <Navbar onMenuClick={() => setSidebarOpen(true)} />
-      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} isLoggedIn={isLoggedIn} />
+      {isLoggedIn && <Navbar onMenuClick={() => setSidebarOpen(true)} />}
+      {isLoggedIn && (
+        <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} isLoggedIn={isLoggedIn} />
+      )}
       
       <main>
         <Routes>
-          <Route path="/userLogin" element={<UserLogin />} />
+          <Route path="/userLogin" element={<UserLogin onLogin={() => setIsLoggedIn(true)} />} />
         <Route path="/userRegister" element={<UserRegister />} />
 
         <Route element={<ProtectedRoutes />}>

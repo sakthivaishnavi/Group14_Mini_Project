@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Search, Menu, X, GraduationCap } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 interface NavbarProps {
   onMenuClick: () => void;
@@ -10,6 +11,7 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuClick }) => {
   const [searchFocused, setSearchFocused] = useState<boolean>(false);
   const [searchValue, setSearchValue] = useState<string>("");
   const location = useLocation();
+  const navigate = useNavigate();
   const isAllCoursesPage = location.pathname.startsWith("/courses/");
 
   return (
@@ -79,11 +81,11 @@ const Navbar: React.FC<NavbarProps> = ({ onMenuClick }) => {
 
         {/* ================= RIGHT SIDE ================= */}
         <div className="flex items-center gap-2 flex-shrink-0">
-          <button className="hidden sm:block px-4 py-2 text-sm font-semibold text-slate-700 hover:text-violet-700 hover:bg-violet-50 rounded-xl transition-all duration-200">
+          <button onClick={() => navigate("/userLogin")} className="hidden sm:block px-4 py-2 text-sm font-semibold text-slate-700 hover:text-violet-700 hover:bg-violet-50 rounded-xl transition-all duration-200">
             Sign In
           </button>
 
-          <button className="px-4 py-2 text-sm font-bold text-white bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 rounded-xl shadow-md shadow-violet-200 hover:shadow-violet-300 transition-all duration-200 hover:-translate-y-0.5">
+          <button onClick={() => navigate("/userRegister")} className="px-4 py-2 text-sm font-bold text-white bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 rounded-xl shadow-md shadow-violet-200 hover:shadow-violet-300 transition-all duration-200 hover:-translate-y-0.5">
             Sign Up
           </button>
         </div>
