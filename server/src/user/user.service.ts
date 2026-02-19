@@ -5,10 +5,9 @@ import { User } from './entities/user.entity';
 
 @Injectable()
 export class UserService {
-
   constructor(
-    @Inject("USER_REPOSITORY")
-    private userRepository: Repository<User>
+    @Inject('USER_REPOSITORY')
+    private userRepository: Repository<User>,
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
@@ -20,11 +19,18 @@ export class UserService {
     return this.userRepository.find();
   }
 
+  findByEmail(email: string) {
+    return this.userRepository.findOne({ where: { email: email } });
+  }
+
   async findOne(id: string): Promise<User | null> {
     return this.userRepository.findOneBy({ id });
   }
 
-  async update(id: string, updateUserDto: Partial<CreateUserDto>): Promise<User | null> {
+  async update(
+    id: string,
+    updateUserDto: Partial<CreateUserDto>,
+  ): Promise<User | null> {
     await this.userRepository.update(id, updateUserDto);
     return this.findOne(id);
   }
