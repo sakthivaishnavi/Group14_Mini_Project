@@ -1,12 +1,10 @@
 import './App.css'
 
-function App() {
+import HomePage from "./pages/HomePage";
 
-  return (
-    <>
-     <h1 className='text-center text-3xl text-sky-400'>Hello LMS Client</h1>
-    </>
-  )
+function App() {
+  return <HomePage />;
 }
 
-export default App
+export default App;
+
