@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import CourseCardGrid from "../components/CourseCardGrid";
 import api from "../api/axios";
-
+ 
 // Fallback hardcoded data
 import {
   recommendedCourses as hardcodedRecommended,
@@ -21,12 +21,12 @@ import {
   exploreCourses as hardcodedExplore,
   trendingCourses as hardcodedTrending,
 } from "../data/courses";
-
+ 
 import type { Course, CourseLevel } from "../data/courses";
-
+ 
 // ── Section config ────────────────────────────────────────────────────────────
 type SectionKey = "recommended" | "enrolled" | "explore" | "trending";
-
+ 
 interface SectionConfig {
   title: string;
   subtitle: string;
@@ -39,21 +39,21 @@ interface SectionConfig {
   icon: React.ReactNode;
   gradient: string;
 }
-
+ 
 // ── Types ─────────────────────────────────────────────────────────────────────
 type SortOption = "popular" | "rating" | "newest" | "price-low" | "price-high" | "duration";
-
+ 
 interface Filters {
   levels: CourseLevel[];
   categories: string[];
   priceRange: "all" | "free" | "paid";
   minRating: number;
 }
-
+ 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 const isSectionKey = (key: string | undefined): key is SectionKey =>
   ["recommended", "enrolled", "explore", "trending"].includes(key ?? "");
-
+ 
 // Helper to map backend course to frontend Course interface
 const mapCourse = (backendCourse: any): Course => {
   return {
@@ -75,7 +75,7 @@ const mapCourse = (backendCourse: any): Course => {
     progress: backendCourse.enrollmentProgress,
   };
 };
-
+ 
 // ── Sub-components ────────────────────────────────────────────────────────────
 const SortSelect: React.FC<{ value: SortOption; onChange: (v: SortOption) => void; accentText: string }> = ({
   value,
@@ -90,7 +90,7 @@ const SortSelect: React.FC<{ value: SortOption; onChange: (v: SortOption) => voi
     { value: "price-high", label: "Price: High to Low" },
     { value: "duration", label: "Shortest First" },
   ];
-
+ 
   return (
     <div className="relative">
       <select
@@ -108,19 +108,19 @@ const SortSelect: React.FC<{ value: SortOption; onChange: (v: SortOption) => voi
     </div>
   );
 };
-
+ 
 // ── Main Page ─────────────────────────────────────────────────────────────────
 const AllCoursesPage: React.FC = () => {
   const { section } = useParams<{ section: string }>();
   const navigate = useNavigate();
-
+ 
   const sectionKey = isSectionKey(section) ? section : "recommended";
-
+ 
   // State for dynamic courses
   const [enrolledCourses, setEnrolledCourses] = useState<Course[]>(hardcodedEnrolled);
   const [publishedCourses, setPublishedCourses] = useState<Course[]>(hardcodedRecommended); // fallback
   const [isLoading, setIsLoading] = useState(true);
-
+ 
   const [search, setSearch] = useState<string>("");
   const [sort, setSort] = useState<SortOption>("popular");
   const [filters, setFilters] = useState<Filters>({
@@ -130,7 +130,7 @@ const AllCoursesPage: React.FC = () => {
     minRating: 0,
   });
   const [showFilters, setShowFilters] = useState<boolean>(false);
-
+ 
   useEffect(() => {
     const fetchCourses = async () => {
       try {
@@ -142,11 +142,11 @@ const AllCoursesPage: React.FC = () => {
            c.progress = e.progress || 0;
            return c;
         });
-        
+       
         // Fetch all published courses
         const coursesRes = await api.get('/courses/published');
         const mappedCourses = (coursesRes.data || []).map(mapCourse);
-
+ 
         // If backend returns data, override the defaults
         if (mappedEnrolled.length > 0 || enrollmentsData.length === 0) { // respect empty array if actually nothing enrolled
             setEnrolledCourses(mappedEnrolled);
@@ -154,7 +154,7 @@ const AllCoursesPage: React.FC = () => {
         if (mappedCourses.length > 0) {
             setPublishedCourses(mappedCourses);
         }
-
+ 
       } catch (err) {
         console.error("Failed to load courses data", err);
       } finally {
@@ -163,7 +163,7 @@ const AllCoursesPage: React.FC = () => {
     };
     fetchCourses();
   }, []);
-
+ 
   const SECTION_MAP = useMemo<Record<SectionKey, SectionConfig>>(() => ({
     recommended: {
       title: "Recommended for You",
@@ -216,19 +216,19 @@ const AllCoursesPage: React.FC = () => {
       gradient: "from-rose-600 via-pink-600 to-fuchsia-600",
     },
   }), [publishedCourses, enrolledCourses]);
-
+ 
   const config = SECTION_MAP[sectionKey];
-
+ 
   // Derive unique categories from this section's courses
   const allCategories = useMemo(
     () => Array.from(new Set(config.courses.map((c) => c.category))).sort(),
     [config.courses]
   );
-
+ 
   // Filter
   const filtered = useMemo(() => {
     let result = [...config.courses];
-
+ 
     if (search.trim()) {
       const q = search.toLowerCase();
       result = result.filter(
@@ -239,25 +239,25 @@ const AllCoursesPage: React.FC = () => {
           c.short_description.toLowerCase().includes(q)
       );
     }
-
+ 
     if (filters.levels.length > 0) {
       result = result.filter((c) => filters.levels.includes(c.level));
     }
-
+ 
     if (filters.categories.length > 0) {
       result = result.filter((c) => filters.categories.includes(c.category));
     }
-
+ 
     if (filters.priceRange === "free") result = result.filter((c) => c.price === 0);
     if (filters.priceRange === "paid") result = result.filter((c) => c.price > 0);
-
+ 
     if (filters.minRating > 0) {
       result = result.filter((c) => c.average_rating >= filters.minRating);
     }
-
+ 
     return result;
   }, [config.courses, search, filters]);
-
+ 
   // Sort
   const sorted = useMemo(() => {
     const arr = [...filtered];
@@ -271,14 +271,14 @@ const AllCoursesPage: React.FC = () => {
       default: return arr;
     }
   }, [filtered, sort]);
-
+ 
   const toggleLevel = (level: CourseLevel) => {
     setFilters((f) => ({
       ...f,
       levels: f.levels.includes(level) ? f.levels.filter((l) => l !== level) : [...f.levels, level],
     }));
   };
-
+ 
   const toggleCategory = (cat: string) => {
     setFilters((f) => ({
       ...f,
@@ -287,25 +287,25 @@ const AllCoursesPage: React.FC = () => {
         : [...f.categories, cat],
     }));
   };
-
+ 
   const clearFilters = () => {
     setFilters({ levels: [], categories: [], priceRange: "all", minRating: 0 });
     setSearch("");
   };
-
+ 
   const activeFilterCount =
     filters.levels.length +
     filters.categories.length +
     (filters.priceRange !== "all" ? 1 : 0) +
     (filters.minRating > 0 ? 1 : 0);
-
+ 
   const LEVELS: CourseLevel[] = ["BEGINNER", "INTERMEDIATE", "ADVANCED"];
   const LEVEL_COLORS: Record<CourseLevel, string> = {
     BEGINNER: "bg-emerald-100 text-emerald-700 border-emerald-200",
     INTERMEDIATE: "bg-amber-100 text-amber-700 border-amber-200",
     ADVANCED: "bg-rose-100 text-rose-700 border-rose-200",
   };
-
+ 
   if (isLoading) {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
@@ -313,14 +313,14 @@ const AllCoursesPage: React.FC = () => {
       </div>
     );
   }
-
+ 
   return (
     <div className="min-h-screen bg-slate-50 font-sans">
       {/* ── Hero Banner ─────────────────────────────────────────────────────── */}
       <div className={`bg-gradient-to-br ${config.gradient} relative overflow-hidden`}>
         <div className="absolute -top-16 -right-16 w-64 h-64 rounded-full bg-white/5 pointer-events-none" />
         <div className="absolute bottom-0 left-1/3 w-48 h-48 rounded-full bg-white/5 pointer-events-none" />
-
+ 
         <div className="w-full px-4 sm:px-6 lg:px-8 py-10 relative z-10">
           {/* Back button */}
           <button
@@ -330,7 +330,7 @@ const AllCoursesPage: React.FC = () => {
             <ArrowLeft size={16} className="group-hover:-translate-x-0.5 transition-transform" />
             Back to Home
           </button>
-
+ 
           {/* Banner content - flex row to align title/subtitle left and search right */}
           <div className="flex items-center justify-between gap-8">
             {/* Left side - Title and Subtitle */}
@@ -343,7 +343,7 @@ const AllCoursesPage: React.FC = () => {
               </div>
               <p className="text-white/70 text-sm ml-[52px]">{config.subtitle}</p>
             </div>
-
+ 
             {/* Right side - Search bar */}
             <div className="relative max-w-md flex-shrink-0 w-full">
               <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
@@ -363,7 +363,7 @@ const AllCoursesPage: React.FC = () => {
           </div>
         </div>
       </div>
-
+ 
       {/* ── Content ─────────────────────────────────────────────────────────── */}
       <div className="w-full px-4 sm:px-6 lg:px-8 py-6">
         {/* Toolbar */}
@@ -383,7 +383,7 @@ const AllCoursesPage: React.FC = () => {
               </button>
             )}
           </div>
-
+ 
           <div className="flex items-center gap-2">
             <button
               onClick={() => setShowFilters(!showFilters)}
@@ -401,11 +401,11 @@ const AllCoursesPage: React.FC = () => {
                 </span>
               )}
             </button>
-
+ 
             <SortSelect value={sort} onChange={setSort} accentText={config.accentText} />
           </div>
         </div>
-
+ 
         {/* Filter Panel */}
         {showFilters && (
           <div className={`mb-6 p-5 rounded-2xl border ${config.accentBorder} ${config.accentBg} transition-all`}>
@@ -429,7 +429,7 @@ const AllCoursesPage: React.FC = () => {
                   ))}
                 </div>
               </div>
-
+ 
               {/* Price */}
               <div>
                 <p className="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3">Price</p>
@@ -449,7 +449,7 @@ const AllCoursesPage: React.FC = () => {
                   ))}
                 </div>
               </div>
-
+ 
               {/* Min Rating */}
               <div>
                 <p className="text-xs font-bold text-slate-600 uppercase tracking-wider mb-3">Min Rating</p>
@@ -470,7 +470,7 @@ const AllCoursesPage: React.FC = () => {
                 </div>
               </div>
             </div>
-
+ 
             {/* Categories */}
             {allCategories.length > 1 && (
               <div className="mt-5 pt-5 border-t border-white/60">
@@ -494,7 +494,7 @@ const AllCoursesPage: React.FC = () => {
             )}
           </div>
         )}
-
+ 
         {/* Grid */}
         {sorted.length > 0 ? (
           <div className="max-w-7xl mx-auto">
@@ -531,6 +531,5 @@ const AllCoursesPage: React.FC = () => {
     </div>
   );
 };
-
+ 
 export default AllCoursesPage;
-

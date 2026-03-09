@@ -6,29 +6,29 @@ import {
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import api from "../api/axios";
-
+ 
 // Default Course Interface to map onto frontend expected schema
 import type { Course } from "../data/courses";
 // Optional fallback
 import { allCoursesMap } from "../data/courses";
-
+ 
 const LEVEL_COLORS: Record<string, string> = {
   BEGINNER: "bg-emerald-100 text-emerald-700",
   INTERMEDIATE: "bg-amber-100 text-amber-700",
   ADVANCED: "bg-rose-100 text-rose-700",
 };
-
+ 
 const formatDuration = (minutes: number): string => {
   const h = Math.floor(minutes / 60);
   const m = minutes % 60;
   return m > 0 ? `${h}h ${m}m` : `${h}h`;
 };
-
+ 
 const formatEnrollments = (n: number): string => {
   if (n >= 1000) return `${(n / 1000).toFixed(1)}k`;
   return String(n);
 };
-
+ 
 const StarRating = ({ rating }: { rating: number }) => {
   return (
     <div className="flex items-center gap-1">
@@ -46,7 +46,7 @@ const StarRating = ({ rating }: { rating: number }) => {
     </div>
   );
 };
-
+ 
 // Helper mapper
 const mapCourse = (backendCourse: any): Course => {
   return {
@@ -84,24 +84,24 @@ const mapCourse = (backendCourse: any): Course => {
     tags: ["Programming", "Beginner"]
   };
 };
-
+ 
 export default function CourseDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [expandedModule, setExpandedModule] = useState<number | null>(0);
-
+ 
   const [course, setCourse] = useState<Course | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isEnrolled, setIsEnrolled] = useState(false);
   const [enrollmentLoading, setEnrollmentLoading] = useState(false);
-
+ 
   useEffect(() => {
     const fetchCourseAndEnrollment = async () => {
       try {
         setIsLoading(true);
-
+ 
         if (!id) return;
-
+ 
         // Fetch course info
         let fetchedCourse = null;
         try {
@@ -115,9 +115,9 @@ export default function CourseDetailPage() {
                  fetchedCourse = allCoursesMap[id];
              }
         }
-
+ 
         setCourse(fetchedCourse);
-
+ 
         // Check if user is already enrolled
         try {
           // Alternatively fetch all and filter
@@ -127,7 +127,7 @@ export default function CourseDetailPage() {
         } catch (e) {
           console.error("Could not check enrollment", e);
         }
-
+ 
       } catch (err) {
         console.error("Error loading course details", err);
         // Fallback
@@ -140,15 +140,15 @@ export default function CourseDetailPage() {
     };
     fetchCourseAndEnrollment();
   }, [id]);
-
+ 
   const handleEnroll = async () => {
     if (!id || !course) return;
-
+ 
     if (isEnrolled) {
        navigate("/courses/enrolled");
        return;
     }
-
+ 
     try {
       setEnrollmentLoading(true);
        // Ensure courseId is a number matching the ID param
@@ -168,7 +168,7 @@ export default function CourseDetailPage() {
       setEnrollmentLoading(false);
     }
   };
-
+ 
   if (isLoading) {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
@@ -176,7 +176,7 @@ export default function CourseDetailPage() {
       </div>
     );
   }
-
+ 
   if (!course) {
     return (
       <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center gap-4">
@@ -190,9 +190,9 @@ export default function CourseDetailPage() {
       </div>
     );
   }
-
+ 
   const totalLessons = course.curriculum?.reduce((acc, m) => acc + m.lessons.length, 0) ?? 0;
-
+ 
   return (
     <div className="min-h-screen bg-slate-50">
       {/* Hero Section */}
@@ -206,7 +206,7 @@ export default function CourseDetailPage() {
             <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
             Back
           </button>
-
+ 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
             {/* Left — course info */}
             <div className="lg:col-span-2 flex flex-col gap-5">
@@ -224,17 +224,17 @@ export default function CourseDetailPage() {
                   </span>
                 )}
               </div>
-
+ 
               {/* Title */}
               <h1 className="text-3xl sm:text-4xl font-black leading-tight">
                 {course.title}
               </h1>
-
+ 
               {/* Short description */}
               <p className="text-slate-300 text-base leading-relaxed">
                 {course.short_description}
               </p>
-
+ 
               {/* Rating row */}
               <div className="flex items-center gap-4 flex-wrap text-sm">
                 <div className="flex items-center gap-2">
@@ -243,7 +243,7 @@ export default function CourseDetailPage() {
                   <span className="text-slate-400">({formatEnrollments(course.total_enrollments)} students)</span>
                 </div>
               </div>
-
+ 
               {/* Meta row */}
               <div className="flex flex-wrap gap-5 text-sm text-slate-300">
                 <span className="flex items-center gap-1.5">
@@ -263,7 +263,7 @@ export default function CourseDetailPage() {
                   {course.level}
                 </span>
               </div>
-
+ 
               {/* Instructor */}
               <p className="text-slate-400 text-sm">
                 Created by{" "}
@@ -272,7 +272,7 @@ export default function CourseDetailPage() {
                 </span>
               </p>
             </div>
-
+ 
             {/* Right — sticky purchase card (desktop) */}
             <div className="hidden lg:block">
               <div className="bg-white rounded-3xl shadow-2xl overflow-hidden sticky top-24">
@@ -292,15 +292,15 @@ export default function CourseDetailPage() {
                       </span>
                     )}
                   </div>
-                  <button className="">
-                    <ShoppingCart size={18} />
-                    {course.price === 0 ? "Enroll for Free" : "Buy Now"}
+                  <button
+                    onClick={handleEnroll}
+                    disabled={enrollmentLoading}
+                    className="w-full py-3.5 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white font-bold rounded-2xl transition-all shadow-lg shadow-violet-200 hover:shadow-violet-300 hover:-translate-y-0.5 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                  >
+                    {!isEnrolled && <ShoppingCart size={18} />}
+                    {enrollmentLoading ? "Processing..." : isEnrolled ? "Go to Course" : (course.price === 0 ? "Enroll for Free" : "Enroll")}
                   </button>
-                  <button className="w-full py-3 border-2 border-slate-200 hover:border-violet-300 text-slate-700 hover:text-violet-700 font-semibold rounded-2xl transition-all flex items-center justify-center gap-2">
-                    <Zap size={16} />
-                    Add to Wishlist
-                  </button>
-                  
+                 
                   {!isEnrolled && (
                     <button className="w-full py-3 border-2 border-slate-200 hover:border-violet-300 text-slate-700 hover:text-violet-700 font-semibold rounded-2xl transition-all flex items-center justify-center gap-2">
                       <Zap size={16} />
@@ -308,7 +308,7 @@ export default function CourseDetailPage() {
                     </button>
                   )}
                   {!isEnrolled && <p className="text-center text-xs text-slate-400">30-Day Money-Back Guarantee</p>}
-                  
+                 
                   <div className="border-t border-slate-100 pt-4 flex flex-col gap-2 text-xs text-slate-500">
                     <span className="flex items-center gap-2"><BookOpen size={13} /> {totalLessons} lessons</span>
                     <span className="flex items-center gap-2"><Clock size={13} /> {formatDuration(course.estimated_duration_minutes)} total</span>
@@ -321,11 +321,11 @@ export default function CourseDetailPage() {
           </div>
         </div>
       </div>
-
+ 
       {/* Body */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 grid grid-cols-1 lg:grid-cols-3 gap-10">
         <div className="lg:col-span-2 flex flex-col gap-10">
-
+ 
           {/* What you'll learn */}
           {course.what_you_learn && course.what_you_learn.length > 0 && (
             <section className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm">
@@ -340,7 +340,7 @@ export default function CourseDetailPage() {
               </div>
             </section>
           )}
-
+ 
           {/* Description */}
           {course.description && (
             <section>
@@ -352,7 +352,7 @@ export default function CourseDetailPage() {
               ))}
             </section>
           )}
-
+ 
           {/* Requirements */}
           {course.requirements && course.requirements.length > 0 && (
             <section>
@@ -367,7 +367,7 @@ export default function CourseDetailPage() {
               </ul>
             </section>
           )}
-
+ 
           {/* Curriculum */}
           {course.curriculum && course.curriculum.length > 0 && (
             <section>
@@ -420,7 +420,7 @@ export default function CourseDetailPage() {
               </div>
             </section>
           )}
-
+ 
           {/* Instructor */}
           <section>
             <h2 className="text-xl font-extrabold text-slate-800 mb-5">Your Instructor</h2>
@@ -449,7 +449,7 @@ export default function CourseDetailPage() {
               </div>
             </div>
           </section>
-
+ 
           {/* Tags */}
           {course.tags && (
             <section>
@@ -468,7 +468,7 @@ export default function CourseDetailPage() {
             </section>
           )}
         </div>
-
+ 
         {/* Right sidebar — purchase card mobile / repeat desktop sticky */}
         <div className="lg:hidden">
           <div className="bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden">
@@ -488,14 +488,14 @@ export default function CourseDetailPage() {
                   </span>
                 )}
               </div>
-              <button 
+              <button
                 onClick={handleEnroll}
                 disabled={enrollmentLoading}
                 className="w-full py-3.5 bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-bold rounded-2xl flex items-center justify-center gap-2 shadow-lg shadow-violet-200 disabled:opacity-70 disabled:cursor-not-allowed">
                 {!isEnrolled && <ShoppingCart size={18} />}
                 {enrollmentLoading ? "Processing..." : isEnrolled ? "Go to Course" : (course.price === 0 ? "Enroll for Free" : "Enroll")}
               </button>
-
+ 
               {!isEnrolled && (
                 <button className="w-full py-3 border-2 border-slate-200 text-slate-700 font-semibold rounded-2xl flex items-center justify-center gap-2">
                   <Zap size={16} />
@@ -510,4 +510,3 @@ export default function CourseDetailPage() {
     </div>
   );
 }
-
