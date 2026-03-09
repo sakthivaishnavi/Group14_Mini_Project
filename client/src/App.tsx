@@ -1,8 +1,8 @@
 import UserLogin from "./pages/UserLogin"
 import UserRegister from "./pages/UserRegister"
 import ProtectedRoutes from "./routes/ProtectedRoutes"
-import { useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useState } from "react";
+import { BrowserRouter, Navigate, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import HomePage from "./pages/HomePage";
@@ -22,25 +22,26 @@ function App() {
   return (
     <BrowserRouter>
       <Navbar onMenuClick={() => setSidebarOpen(true)} />
-      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} isLoggedIn={isLoggedIn} />
+      {isLoggedIn && <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} isLoggedIn={isLoggedIn} />}
 
       <main>
         <Routes>
+          <Route path="/" element={<HomePage />} />
           <Route path="/userLogin" element={<UserLogin />} />
           <Route path="/userRegister" element={<UserRegister />} />
 
           <Route element={<ProtectedRoutes />}>
-            <Route path="/" element={<HomePage />} />
             <Route path="/user/profile/:id" element={<ProfilePage />} />
             <Route path="/instructor" element={<InstructorPage />} />
             <Route path="/instructor/createCourse" element={<CreateCoursePage />} />
             <Route path="/instructor/createQuiz" element={<CreateQuizPage />} />
             <Route path="/instructor/editCourse/:id" element={<CreateCoursePage />} />
+            <Route path="/instructor/editQuiz/:id" element={<CreateQuizPage />} />
           </Route>
 
           <Route path="/courses/:section" element={<AllCoursesPage />} />
           <Route path="/course/:id" element={<CourseDetailPage />} />
-          <Route path="*" element={<UserLogin />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
     </BrowserRouter>

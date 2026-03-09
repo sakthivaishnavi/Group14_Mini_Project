@@ -36,7 +36,7 @@ const sections: SectionLink[] = [
     accent: "text-indigo-600",
     iconBg: "bg-indigo-100",
     path: "/courses/enrolled",
-  
+     
 
   },
   {
@@ -59,12 +59,12 @@ const sections: SectionLink[] = [
 
 const instructorSections: SectionLink[] = [
   {
-    label: "Lecturer Dashboard",
+    label: "Instructor Dashboard",
     subtitle: "Manage your courses and students",
     icon: <TrendingUp size={18} />,
     accent: "text-violet-600",
     iconBg: "bg-violet-100",
-    path: "/lecturer/dashboard",
+    path: "/instructor",
   },
   {
     label: "Create New Course",
@@ -72,7 +72,7 @@ const instructorSections: SectionLink[] = [
     icon: <Star size={18} />,
     accent: "text-indigo-600",
     iconBg: "bg-indigo-100",
-    path: "/lecturer/create-course",
+    path: "/instructor/createCourse",
   },
 ];
 
@@ -111,7 +111,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isLoggedIn = false }
       localStorage.setItem("user", JSON.stringify(updatedUser));
       setUser(updatedUser);
       alert("Congratulations! You are now an instructor.");
-      navigate("/lecturer/dashboard");
+      navigate("/instructor");
       onClose();
     } catch (error: any) {
       console.error("Error becoming instructor:", error);
