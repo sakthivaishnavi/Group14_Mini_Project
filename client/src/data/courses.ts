@@ -18,6 +18,7 @@ export interface Course {
   estimated_duration_minutes: number;
   short_description: string;
   description?: string;
+  price?: number;
   language: string;
   category: string;
   is_featured?: boolean;

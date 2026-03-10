@@ -94,7 +94,12 @@ const HomePage: React.FC = () => {
           });
           setEnrolledCourses(mappedEnrolled);
           if (enrollmentsData.length > 0 && enrollmentsData[0].user) {
-            setUserName(enrollmentsData[0].user.name || enrollmentsData[0].user.email);
+            setUserName(
+              enrollmentsData[0].user.firstname || 
+              enrollmentsData[0].user.username || 
+              enrollmentsData[0].user.email || 
+              "User"
+            );
           }
         }
  

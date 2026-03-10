@@ -21,7 +21,6 @@ const CreateQuizPage: React.FC = () => {
   const [courses, setCourses] = useState<CourseOption[]>([]);
   const [coursesLoading, setCoursesLoading] = useState(true);
   const [selectedCourseId, setSelectedCourseId] = useState<number | "">("");
-  const [sectionId, setSectionId] = useState<number | "">("");
 
   // â”€â”€ Form state â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const [title, setTitle] = useState("");

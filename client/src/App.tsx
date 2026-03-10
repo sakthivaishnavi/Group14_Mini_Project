@@ -3,7 +3,7 @@ import UserRegister from "./pages/UserRegister"
 import ProtectedRoutes from "./routes/ProtectedRoutes"
 import PublicOnlyRoutes from "./routes/PublicOnlyRoutes"
 import { useState } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import HomePage from "./pages/HomePage";
@@ -27,22 +27,13 @@ import AdminQuizzes from "./pages/admin/AdminQuizzes";
 
 import { useLocation } from "react-router-dom";
 
-function AppContent() {
+function App() {
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
   const isLoggedIn = !!localStorage.getItem("token");
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith('/admin');
 
   return (
-    <BrowserRouter>
-      <Navbar onMenuClick={() => setSidebarOpen(true)} />
-      {isLoggedIn && <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} isLoggedIn={isLoggedIn} />}
-
-      <main>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/userLogin" element={<UserLogin />} />
-          <Route path="/userRegister" element={<UserRegister />} />
     <>
       {!isAdminRoute && <Navbar onMenuClick={() => setSidebarOpen(true)} />}
       {!isAdminRoute && <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} isLoggedIn={isLoggedIn} />}
@@ -55,11 +46,13 @@ function AppContent() {
             <Route path="/userRegister" element={<UserRegister />} />
           </Route>
 
+          <Route path="/" element={<HomePage />} />
+          <Route path="/courses/:section" element={<AllCoursesPage />} />
+          <Route path="/course/:id" element={<CourseDetailPage />} />
+
           {/* ── Protected: requires valid token ── */}
           <Route element={<ProtectedRoutes />}>
             <Route path="/user/profile/:id" element={<ProfilePage />} />
-            <Route path="/courses/:section" element={<AllCoursesPage />} />
-            <Route path="/course/:id" element={<CourseDetailPage />} />
             <Route path="/instructor" element={<InstructorPage />} />
             <Route path="/instructor/createCourse" element={<CreateCoursePage />} />
             <Route path="/instructor/createQuiz" element={<CreateQuizPage />} />
@@ -67,9 +60,6 @@ function AppContent() {
             <Route path="/instructor/editQuiz/:id" element={<CreateQuizPage />} />
           </Route>
 
-          <Route path="/courses/:section" element={<AllCoursesPage />} />
-          <Route path="/course/:id" element={<CourseDetailPage />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
           {/* ── Admin: requires token + ADMIN role ── */}
           <Route path="/admin" element={<AdminProtectedRoutes />}>
             <Route index element={<Navigate to="dashboard" replace />} />
@@ -88,14 +78,6 @@ function AppContent() {
         </Routes>
       </main>
     </>
-  );
-}
-
-function App() {
-  return (
-    <BrowserRouter>
-      <AppContent />
-    </BrowserRouter>
   );
 }
 

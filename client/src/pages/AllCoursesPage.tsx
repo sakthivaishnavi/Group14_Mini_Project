@@ -58,7 +58,7 @@ const mapCourse = (backendCourse: any): Course => {
   return {
     id: String(backendCourse.id),
     title: backendCourse.title,
-    instructor: backendCourse.instructor?.name || "Unknown Instructor",
+    instructor: backendCourse.instructor?.username || "Unknown Instructor",
     instructor_bio: backendCourse.instructor?.bio,
     instructor_avatar: backendCourse.instructor?.avatar,
     thumbnail_url: backendCourse.thumbnailUrl || "https://picsum.photos/seed/default/800/450",

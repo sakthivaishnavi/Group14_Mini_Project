@@ -1,4 +1,4 @@
-import { useState } from "react";
+
 import { useLocation, useNavigate } from "react-router-dom";
 import { Menu, GraduationCap } from "lucide-react";
 import SearchBar from "./SearchBar";
