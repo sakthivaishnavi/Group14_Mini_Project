@@ -57,11 +57,8 @@ const UserLogin: React.FC<UserLoginProps> = ({ onLogin }) => {
   }
 
   return (
-    <div>
-      {/* <div className="bg-black  text-white p-6 rounded-b-lg shadow-md shadow-blue-500">
-        <h1 className="text-4xl font-bold text-left">LMS</h1>
-      </div> */}
-      <div className="container mx-auto my-12 px-4 flex flex-col md:flex-row items-start md:items-center gap-8 md:gap-12 max-w-5xl">
+    <div className="min-h-screen flex items-center justify-center bg-slate-50 py-8 px-4">
+      <div className="w-full max-w-5xl flex flex-col md:flex-row items-center gap-8 md:gap-12">
         <div className="w-full md:w-1/2 flex justify-center">
           <picture className="w-full max-w-lg">
             <source srcSet={mainImg} type="image/webp" />

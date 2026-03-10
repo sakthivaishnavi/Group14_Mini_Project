@@ -82,7 +82,7 @@ export default function CourseCardGrid({ course, showProgress = false }: CourseC
             </div>
             <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
               <div
-                className="h-full bg-gradient-to-r from-violet-500 to-indigo-500 rounded-full"
+                className="h-full bg-blue-950 rounded-full"
                 style={{ width: `${course.progress}%` }}
               />
             </div>

@@ -132,15 +132,17 @@ const HomePage: React.FC = () => {
     return (
       <div className="min-h-screen bg-slate-50 font-sans">
         <div className="w-full px-4 sm:px-6 lg:px-8 py-8">
-          <div className="mb-8">
-            <h1 className="text-4xl font-black text-blue-900 mb-1">Welcome to LearnHub!</h1>
-            <h1 className="text-3xl font-black text-slate-800 my-4">Browse Courses</h1>
-            <p className="text-slate-500 text-sm mb-5">
-              <span className="font-semibold text-slate-700">New here?</span>{" "}
-              <a href="/userLogin" className="text-violet-600 hover:underline font-semibold">Sign in</a>{" "}
-              to enroll and track your progress.
-            </p>
-            <div className="relative max-w-md flex-shrink-0 w-full">
+          <div className="mb-8 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+            <div>
+              <h1 className="text-4xl font-black text-blue-900 mb-1">Welcome to LearnHub!</h1>
+              <h1 className="text-3xl font-black text-slate-800 my-4">Browse Courses</h1>
+              <p className="text-slate-500 text-sm">
+                <span className="font-semibold text-slate-700">New here?</span>{" "}
+                <a href="/userLogin" className="text-violet-600 hover:underline font-semibold">Sign in</a>{" "}
+                to enroll and track your progress.
+              </p>
+            </div>
+            <div className="relative w-full sm:w-80 flex-shrink-0">
               <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-800 pointer-events-none" />
               <input
                 type="text"

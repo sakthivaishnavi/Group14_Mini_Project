@@ -75,7 +75,7 @@ export default function CourseCard({ course, showProgress = false }: CourseCardP
             </div>
             <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
               <div
-                className="h-full bg-gradient-to-r from-violet-500 to-indigo-500 rounded-full transition-all"
+                className="h-full bg-blue-950 rounded-full transition-all"
                 style={{ width: `${course.progress}%` }}
               />
             </div>

@@ -176,7 +176,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isLoggedIn = false }
         {/* Drawer Header */}
         <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-xl bg-blue-950 flex items-center justify-center">
               <span className="text-white font-black text-sm">L</span>
             </div>
             <span className="font-extrabold text-slate-800 text-lg tracking-tight">LearnHub</span>
@@ -278,7 +278,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, isLoggedIn = false }
             )}
 
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-full bg-gradient-to-br from-violet-400 to-indigo-500 flex items-center justify-center text-white font-bold text-sm">
+              <div className="w-9 h-9 rounded-full bg-blue-950 flex items-center justify-center text-white font-bold text-sm">
                 {getUserInitials()}
               </div>
               <div className="flex-1 min-w-0">

@@ -165,7 +165,7 @@ const InstructorPage = () => {
               </p>
             </div>
             <div className="flex gap-7 mt-4">
-              <button onClick={() => navigate(`/courses/${course.id}`)}
+              <button onClick={() => navigate(`/course/${course.id}`)}
                 className="flex-1 text-white bg-blue-950 border border-gray-400 text-gray-600 px-3 py-1.5 rounded transition text-sm">
                 View
               </button>

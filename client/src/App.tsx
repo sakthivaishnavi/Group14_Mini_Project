@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
+import Footer from "./components/Footer";
 import HomePage from "./pages/HomePage";
 import AllCoursesPage from "./pages/AllCoursesPage";
 import CourseDetailPage from "./pages/CourseDetailPage";
@@ -77,6 +78,7 @@ function App() {
           <Route path="*" element={<Navigate to="/userLogin" replace />} />
         </Routes>
       </main>
+      {!isAdminRoute && <Footer />}
     </>
   );
 }

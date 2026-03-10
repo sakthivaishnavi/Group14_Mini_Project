@@ -201,7 +201,7 @@ export default function CourseDetailPage() {
   return (
     <div className="min-h-screen bg-slate-50">
       {/* Hero Section */}
-      <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white">
+      <div className="bg-blue-950 text-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
           {/* Back button */}
           <button
@@ -290,7 +290,7 @@ export default function CourseDetailPage() {
                   <button
                     onClick={handleEnroll}
                     disabled={enrollmentLoading}
-                    className="w-full py-3.5 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white font-bold rounded-2xl transition-all shadow-lg shadow-violet-200 hover:shadow-violet-300 hover:-translate-y-0.5 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                    className="w-full py-3.5 bg-blue-950 hover:bg-blue-900 text-white font-bold rounded-2xl transition-all shadow-lg hover:-translate-y-0.5 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
                   >
                     {!isEnrolled && <ShoppingCart size={18} />}
                     {enrollmentLoading ? "Processing..." : isEnrolled ? "Go to Course" : "Enroll"}
@@ -474,7 +474,7 @@ export default function CourseDetailPage() {
               <button
                 onClick={handleEnroll}
                 disabled={enrollmentLoading}
-                className="w-full py-3.5 bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-bold rounded-2xl flex items-center justify-center gap-2 shadow-lg shadow-violet-200 disabled:opacity-70 disabled:cursor-not-allowed">
+                className="w-full py-3.5 bg-blue-950 hover:bg-blue-900 text-white font-bold rounded-2xl flex items-center justify-center gap-2 shadow-lg disabled:opacity-70 disabled:cursor-not-allowed">
                 {!isEnrolled && <ShoppingCart size={18} />}
                 {enrollmentLoading ? "Processing..." : isEnrolled ? "Go to Course" : "Enroll"}
               </button>

@@ -35,7 +35,7 @@ const AdminLayout: React.FC = () => {
               <Menu size={22} />
             </button>
             <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/admin/dashboard')}>
-              <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center shadow-md">
+              <div className="w-8 h-8 rounded-xl bg-blue-950 flex items-center justify-center shadow-md">
                 <GraduationCap size={16} className="text-white" />
               </div>
               <span className="font-extrabold text-slate-800 text-lg tracking-tight hidden sm:block">
@@ -47,7 +47,7 @@ const AdminLayout: React.FC = () => {
           <div className="flex items-center gap-2 flex-shrink-0">
             <button
               onClick={handleLogout}
-              className="px-4 py-2 text-sm font-bold text-white bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 rounded-xl shadow-md shadow-red-200 hover:shadow-red-300 transition-all duration-200 hover:-translate-y-0.5"
+              className="px-4 py-2 text-sm font-bold text-white bg-blue-950 hover:bg-blue-900 rounded-xl shadow-md transition-all duration-200 hover:-translate-y-0.5"
             >
               Logout
             </button>
@@ -71,7 +71,7 @@ const AdminLayout: React.FC = () => {
       >
         <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-xl bg-blue-950 flex items-center justify-center">
               <span className="text-white font-black text-sm">A</span>
             </div>
             <span className="font-extrabold text-slate-800 text-lg tracking-tight">Admin Panel</span>

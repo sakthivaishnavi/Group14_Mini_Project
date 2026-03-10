@@ -44,7 +44,8 @@ const UserRegister: React.FC = () => {
     }
 
     return (
-        <div className="container mx-auto my-12 px-4 flex flex-col md:flex-row items-start md:items-center gap-8 md:gap-12 max-w-5xl">
+        <div className="min-h-screen flex items-center justify-center bg-slate-50 py-8 px-4">
+            <div className="w-full max-w-5xl flex flex-col md:flex-row items-center gap-8 md:gap-12">
             <div className="w-full md:w-1/2 flex justify-center">
                 <picture className="w-full max-w-lg">
                     <source srcSet={mainImg} type="image/webp" />
@@ -73,6 +74,7 @@ const UserRegister: React.FC = () => {
                     <span className="text-blue-600 cursor-pointer" onClick={() => navigate("/userLogin")}>Login</span>
                 </p>
             </form>
+            </div>
         </div>
     )
 }

@@ -306,7 +306,7 @@ const AllCoursesPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-slate-50 font-sans">
       {/* ── Hero Banner ─────────────────────────────────────────────────────── */}
-      <div className={`bg-gradient-to-br ${config.gradient} relative overflow-hidden`}>
+      <div className={`${config.gradient} relative overflow-hidden`}>
         <div className="absolute -top-16 -right-16 w-64 h-64 rounded-full bg-white/5 pointer-events-none" />
         <div className="absolute bottom-0 left-1/3 w-48 h-48 rounded-full bg-white/5 pointer-events-none" />
  
