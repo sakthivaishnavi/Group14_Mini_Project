@@ -1,4 +1,4 @@
-name: CI - Lint and Build
+name: CI - install deps and Build
 
 on:
   push:
@@ -24,7 +24,6 @@ jobs:
 
       - name: Install Dependencies
         run: npm install
-
 
       - name: Build
         run: npm run build
